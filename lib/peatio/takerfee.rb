@@ -2,6 +2,9 @@ require "peatio/takerfee/version"
 
 module Peatio
   module Takerfee
-    # Your code goes here...
+
+    def custom
+      puts 'custom method'
+    end
   end
 end
