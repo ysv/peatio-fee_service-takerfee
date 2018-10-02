@@ -1,10 +1,9 @@
 require "peatio/takerfee/version"
 
+binding.pry
 module Peatio
   module Takerfee
 
-    def custom
-      puts 'custom method'
-    end
+    VAL='kek'
   end
 end
