@@ -1,9 +1,8 @@
 require "peatio/takerfee/version"
 
-binding.pry
 module Peatio
   module Takerfee
-
-    VAL='kek'
+    require_relative 'services/fees_service'
+    require_relative 'takerfee/takerfee'
   end
 end
