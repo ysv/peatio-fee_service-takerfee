@@ -1,7 +1,7 @@
 module Peatio
   module FeeService
     module Takerfee
-      class Withdraw < Peatio::FeeService::Withdraw
+      class Withdraw < Withdraw
       end
     end
   end
