@@ -1,7 +1,9 @@
 require 'pry-byebug'
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+# binding.pry
 require "peatio-fee_service/takerfee/version"
+# binding.pry
 
 Gem::Specification.new do |spec|
   spec.name          = "peatio-fee_service-takerfee"
@@ -32,7 +34,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "peatio", "~> 0.4.2"
+  spec.add_runtime_dependency "peatio", "~> 0.4.2"
   spec.add_dependency "method-not-implemented", "~> 1.0.1"
 
   spec.add_development_dependency "bundler", "~> 1.16"

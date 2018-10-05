@@ -1,8 +1,7 @@
 module Peatio
   module FeeService
     module Takerfee
-      class Order
-
+      class Order < Peatio::FeeService::Order
       end
     end
   end

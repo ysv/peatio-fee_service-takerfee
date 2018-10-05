@@ -1,4 +1,5 @@
 # THIS WILL BE MOVED TO PEATIO-CORE.
+# binding.pry
 require 'peatio'
 
 module Peatio
