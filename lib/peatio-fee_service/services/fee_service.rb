@@ -1,8 +1,8 @@
 # THIS WILL BE MOVED TO PEATIO-CORE.
-require 'pry-byebug'
 
 module Peatio
-  module FeesService
+  # TODO: Rename to FeeService.
+  module FeeService
 
     # Error repesent all errors that can be returned from FeesService module.
     class Error < Peatio::Error
@@ -18,8 +18,10 @@ module Peatio
     end
 
     class << self
-      def lock!(operation_type, *args)
-        middlewares = method("#{operation_type}_middlewares").call
+      def lock!(*args)
+        operation = operation_name(args.first)
+
+        middlewares = method("#{operation}_middlewares").call
         middlewares.each do |middleware|
           middleware.lock!(*args)
         end
@@ -27,15 +29,26 @@ module Peatio
         raise Error, e
       end
 
-      def charge!(operation_type, *args)
-        middlewares = method("#{operation_type}_middlewares").call
+      def charge!(*args)
+        operation = operation_name(args.first)
+
+        middlewares = method("#{operation}_middlewares").call
         middlewares.each do |middleware|
           middleware.charge!(*args)
         end
-      raise StandardError, "kekekekeekek"
-
       rescue StandardError => e
         raise Error, e
+      end
+
+      def operation_name(operation)
+        case operation.class
+        when Order
+          :order
+        when Withdraw
+          :withdraw
+        else
+          raise Error, 'Unsupported operation for FeeService.'
+        end
       end
 
       def order_middlewares=(list)

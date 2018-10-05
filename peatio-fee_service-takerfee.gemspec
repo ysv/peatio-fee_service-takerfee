@@ -1,11 +1,17 @@
-
+require 'pry-byebug'
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "peatio/takerfee/version"
+binding.pry
+require "peatio-fee_service/takerfee/version"
+
+module Peatio
+  module FeeService
+  end
+end
 
 Gem::Specification.new do |spec|
-  spec.name          = "peatio-takerfee"
-  spec.version       = Peatio::Takerfee::VERSION
+  spec.name          = "peatio-fee_service-takerfee"
+  spec.version       = Peatio::FeeService::Takerfee::VERSION
   spec.authors       = ["MoD"]
   spec.email         = ["mod@websys.io"]
 
