@@ -1,4 +1,4 @@
-require 'peatio-fee_service/takerfee/version'
+require "peatio-fee_service/takerfee/version"
 
 module Peatio
   module FeeService

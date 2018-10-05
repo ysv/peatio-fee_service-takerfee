@@ -2,7 +2,6 @@ require 'pry-byebug'
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "peatio-fee_service/takerfee/version"
-binding.pry
 
 Gem::Specification.new do |spec|
   spec.name          = "peatio-fee_service-takerfee"

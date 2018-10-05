@@ -1,7 +1,7 @@
 # THIS WILL BE MOVED TO PEATIO-CORE.
+require 'peatio'
 
 module Peatio
-  # TODO: Rename to FeeService.
   module FeeService
 
     # Error repesent all errors that can be returned from FeesService module.
