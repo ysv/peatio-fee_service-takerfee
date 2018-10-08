@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="21d2b3ee-0237-4d14-904f-cbb057ea1a16" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/peatio-fee_service-takerfee.rb" beforeDir="false" afterPath="$PROJECT_DIR$/lib/peatio-fee_service-takerfee.rb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/peatio-fee_service/services/fee_service.rb" beforeDir="false" afterPath="$PROJECT_DIR$/lib/peatio-fee_service/services/fee_service.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/peatio-fee_service/takerfee/withdraw.rb" beforeDir="false" afterPath="$PROJECT_DIR$/lib/peatio-fee_service/takerfee/withdraw.rb" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -46,8 +45,8 @@
       <file leaf-file-name="fee_service.rb" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/peatio-fee_service/services/fee_service.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="12" column="80" selection-start-line="12" selection-start-column="80" selection-end-line="12" selection-end-column="80" />
+            <state relative-caret-position="675">
+              <caret line="29" column="22" selection-start-line="29" selection-start-column="22" selection-end-line="29" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -73,8 +72,8 @@
       <file leaf-file-name="withdraw.rb" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/peatio-fee_service/takerfee/withdraw.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+            <state relative-caret-position="243">
+              <caret line="9" column="21" selection-start-line="9" selection-start-column="21" selection-end-line="9" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -112,12 +111,12 @@
         <option value="$PROJECT_DIR$/peatio-takerfee.gemspec" />
         <option value="$PROJECT_DIR$/lib/peatio-fee_service/takerfee.rb" />
         <option value="$PROJECT_DIR$/lib/peatio-fee_service/takerfee/takerfee.rb" />
-        <option value="$PROJECT_DIR$/lib/peatio-fee_service/takerfee/withdraw.rb" />
         <option value="$PROJECT_DIR$/lib/peatio-fee_service/takerfee/order.rb" />
         <option value="$PROJECT_DIR$/peatio-fee_service-takerfee.gemspec" />
         <option value="$PROJECT_DIR$/peatio-fee_service-takerfee.gemspec" />
         <option value="$PROJECT_DIR$/lib/peatio-fee_service/takerfee.rb" />
         <option value="$PROJECT_DIR$/lib/peatio-fee_service-takerfee.rb" />
+        <option value="$PROJECT_DIR$/lib/peatio-fee_service/takerfee/withdraw.rb" />
         <option value="$PROJECT_DIR$/lib/peatio-fee_service/services/fee_service.rb" />
       </list>
     </option>
@@ -220,12 +219,12 @@
       <workItem from="1538487293680" duration="3105000" />
       <workItem from="1538653514937" duration="11346000" />
       <workItem from="1538735362590" duration="5581000" />
-      <workItem from="1539001609110" duration="4120000" />
+      <workItem from="1539001609110" duration="8204000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10627000" />
+    <option name="totallyTimeSpent" value="14711000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="5" width="1920" height="1048" extended-state="6" />
@@ -461,20 +460,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/peatio-fee_service/takerfee/withdraw.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/peatio-fee_service-takerfee.rb">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/lib/peatio-fee_service/takerfee/withdraw.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="9" column="21" selection-start-line="9" selection-start-column="21" selection-end-line="9" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/lib/peatio-fee_service/services/fee_service.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="12" column="80" selection-start-line="12" selection-start-column="80" selection-end-line="12" selection-end-column="80" />
+        <state relative-caret-position="675">
+          <caret line="29" column="22" selection-start-line="29" selection-start-column="22" selection-end-line="29" selection-end-column="22" />
         </state>
       </provider>
     </entry>

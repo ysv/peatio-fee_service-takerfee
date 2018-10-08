@@ -15,36 +15,33 @@ module Peatio
     end
 
     class << self
-      def lock!(*args)
-        operation = operation_name(args.first)
+      def lock_fees_for!(operation_type, *args)
+        operation = operation(operation_type)
 
         middlewares = method("#{operation}_middlewares").call
-        middlewares.each do |middleware|
-          middleware.lock!(*args)
-        end
+        middlewares.each_with_object([]) do |middleware, fees|
+          fees << middleware.lock!(*args)
+        end.compact
+
       rescue StandardError => e
         raise Error, e.message
       end
 
-      def charge!(*args)
-        operation = operation_name(args.first)
+      def charge_fees_for!(operation_type, *args)
+        operation = operation(operation_type)
 
         middlewares = method("#{operation}_middlewares").call
-        middlewares.each do |middleware|
-          middleware.charge!(*args)
-        end
+        middlewares.each_with_object([]) do |middleware, fees|
+          fees << middleware.charge!(*args)
+        end.compact
+
       rescue StandardError => e
         raise Error, e.message
       end
 
-      def operation_name(operation)
-        case operation.class
-        when Order
-          :order
-        when Withdraw
-          :withdraw
-        else
-          raise Error, 'Unsupported operation for FeeService.'
+      def operation(operation)
+        operation.tap do |op|
+          raise Error, 'Unsupported operation for FeeService.' unless op.to_s.in? %w[order withdraw]
         end
       end
 
