@@ -7,14 +7,10 @@ module Peatio
 
     # Error repesent all errors that can be returned from FeesService module.
     class Error < Peatio::Error
-      attr_reader :wrapped_exception
-
-      def initialize(wrapped_exception = nil)
-        @wrapped_exception = wrapped_exception
-
+      def initialize(ex = nil)
         # TODO: Change code.
         super code: 1000,
-              text: "FeesService failed".tap { |t| t << ": #{wrapped_exception.message}" if wrapped_exception }
+              text: "FeesService failed".tap { |t| t << ": #{ex}" if ex.present? }
       end
     end
 
@@ -27,7 +23,7 @@ module Peatio
           middleware.lock!(*args)
         end
       rescue StandardError => e
-        raise Error, e
+        raise Error, e.message
       end
 
       def charge!(*args)
@@ -38,7 +34,7 @@ module Peatio
           middleware.charge!(*args)
         end
       rescue StandardError => e
-        raise Error, e
+        raise Error, e.message
       end
 
       def operation_name(operation)
