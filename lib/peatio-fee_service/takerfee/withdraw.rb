@@ -3,11 +3,15 @@ module Peatio
     module Takerfee
       class Withdraw < Withdraw
         def lock!(withdraw)
-          binding.pry
+          Fee.create!\
+            parent: withdraw,
+            source_account: withdraw.account,
+            target_account: Fee::PLATFORM_ACCOUNT_ID,
+            amount: withdraw.amount * 0.0015
         end
 
         def charge!(withdraw)
-          binding.pry
+          # Don't add any fees.
         end
       end
     end
