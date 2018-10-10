@@ -3,7 +3,7 @@ module Peatio
     module Takerfee
       class Order < Order
         def lock!(order)
-          Fee.create!\
+          Fee.new\
             parent: order,
             source_account: order.hold_account,
             target_account: Fee::PLATFORM_ACCOUNT_ID,
@@ -13,13 +13,14 @@ module Peatio
         def charge!(order, trade)
           # Select market_maker older order.
           market_maker = [trade.ask, trade.bid].min_by(&:created_at)
-          # Pay fees back for market_maker.
+          # Return fees to market_maker.
+          # NOTE: We return only matched amount of fees
           if order.created_at == market_maker
-            Fee.create!\
+            Fee.new\
               parent: order,
-              source_account: nil,
-              target_account: Fee::PLATFORM_ACCOUNT_ID,
-              amount: order.origin_volume * 0.001
+              source_account: Fee::PLATFORM_ACCOUNT_ID,
+              target_account: order.hold_account,
+              amount: trade.volume * 0.001
           end
         end
       end

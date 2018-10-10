@@ -3,7 +3,7 @@ module Peatio
     module Takerfee
       class Withdraw < Withdraw
         def lock!(withdraw)
-          Fee.create!\
+          Fee.new\
             parent: withdraw,
             source_account: withdraw.account,
             target_account: Fee::PLATFORM_ACCOUNT_ID,

@@ -15,24 +15,38 @@ module Peatio
     end
 
     class << self
-      def lock_fees_for!(operation_type, *args)
+      def on_submit(operation_type, *args)
         operation = operation(operation_type)
 
         middlewares = method("#{operation}_middlewares").call
-        middlewares.each_with_object([]) do |middleware, fees|
-          fees << middleware.lock!(*args)
+        a = middlewares.each_with_object([]) do |middleware, fees|
+          fees << middleware.on_submit(*args)
         end.compact
-
+        binding.pry
+        a
       rescue StandardError => e
         raise Error, e.message
       end
 
-      def charge_fees_for!(operation_type, *args)
+      def on_complete(operation_type, *args)
+        operation = operation(operation_type)
+
+        middlewares = method("#{operation}_middlewares").call
+        a = middlewares.each_with_object([]) do |middleware, fees|
+          fees << middleware.on_complete(*args)
+        end.compact
+        binding.pry
+        a
+      rescue StandardError => e
+        raise Error, e.message
+      end
+
+      def on_cancel(operation_type, *args)
         operation = operation(operation_type)
 
         middlewares = method("#{operation}_middlewares").call
         middlewares.each_with_object([]) do |middleware, fees|
-          fees << middleware.charge!(*args)
+          fees << middleware.on_cancel(*args)
         end.compact
 
       rescue StandardError => e
