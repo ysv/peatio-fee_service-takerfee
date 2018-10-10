@@ -23,7 +23,7 @@ module Peatio
           fees << middleware.on_submit(*args)
         end.compact
         binding.pry
-        a
+        FeeService.new(a)
       rescue StandardError => e
         raise Error, e.message
       end
@@ -36,7 +36,8 @@ module Peatio
           fees << middleware.on_complete(*args)
         end.compact
         binding.pry
-        a
+        FeeService.new(a)
+
       rescue StandardError => e
         raise Error, e.message
       end
@@ -48,7 +49,7 @@ module Peatio
         middlewares.each_with_object([]) do |middleware, fees|
           fees << middleware.on_cancel(*args)
         end.compact
-
+        FeeService.new(a)
       rescue StandardError => e
         raise Error, e.message
       end
@@ -76,22 +77,61 @@ module Peatio
       end
     end
 
+    attr_accessor :fees
+
+    def initialize(fees)
+      @fees = Array(fees)
+    end
+
+    def submit!
+      ActiveRecord::Base.transaction do
+        fees.each do |fee|
+          fee.source_account&.lock_funds!(fee.amount)
+        end
+      end
+    end
+
+    def complete!
+      ActiveRecord::Base.transaction do
+        fees.each do |fee|
+          fee.source_account&.unlock_and_sub_funds!(fee.amount)
+          fee.target_account&.plus_funds!(fee.amount)
+        end
+      end
+    end
+
+    def cancel!
+      ActiveRecord::Base.transaction do
+        fees.each do |fee|
+          fee.source_account&.unlock_funds!(fee.amount)
+        end
+      end
+    end
+
     class Withdraw
-      def lock!(withdraw)
+      def on_submit(withdraw)
         method_not_implemented
       end
 
-      def charge!(withdraw)
+      def on_complete(withdraw)
+        method_not_implemented
+      end
+
+      def on_cancel(order)
         method_not_implemented
       end
     end
 
     class Order
-      def lock!(order)
+      def on_submit(withdraw)
         method_not_implemented
       end
 
-      def charge!(order, trade)
+      def on_complete(withdraw)
+        method_not_implemented
+      end
+
+      def on_cancel(order)
         method_not_implemented
       end
     end
