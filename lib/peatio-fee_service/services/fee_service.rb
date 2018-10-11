@@ -1,55 +1,32 @@
 # THIS WILL BE MOVED TO PEATIO-CORE.
 # binding.pry
-require 'peatio'
+# require 'peatio'
 
 module Peatio
-  module FeeService
+  class FeeService
 
-    # Error repesent all errors that can be returned from FeesService module.
-    class Error < Peatio::Error
-      def initialize(ex = nil)
-        # TODO: Change code.
-        super code: 1000,
-              text: "FeesService failed".tap { |t| t << ": #{ex}" if ex.present? }
-      end
-    end
+    OPERATIONS = %i[order withdraw].freeze
+    ACTIONS    = %i[on_submit on_complete on_cancel].freeze
 
     class << self
-      def on_submit(operation_type, *args)
-        operation = operation(operation_type)
-
-        middlewares = method("#{operation}_middlewares").call
-        a = middlewares.each_with_object([]) do |middleware, fees|
-          fees << middleware.on_submit(*args)
-        end.compact
-        binding.pry
-        FeeService.new(a)
-      rescue StandardError => e
-        raise Error, e.message
+      ACTIONS.each do |method|
+        class_eval <<-RUBY, __FILE__, __LINE__ + 1
+          def #{method}(operation_type, *args)
+            run_middlewares(:#{method}, operation_type, *args)
+          end
+        RUBY
       end
 
-      def on_complete(operation_type, *args)
+      def run_middlewares(method, operation_type, *args)
         operation = operation(operation_type)
 
         middlewares = method("#{operation}_middlewares").call
-        a = middlewares.each_with_object([]) do |middleware, fees|
-          fees << middleware.on_complete(*args)
-        end.compact
-        binding.pry
-        FeeService.new(a)
-
-      rescue StandardError => e
-        raise Error, e.message
-      end
-
-      def on_cancel(operation_type, *args)
-        operation = operation(operation_type)
-
-        middlewares = method("#{operation}_middlewares").call
-        middlewares.each_with_object([]) do |middleware, fees|
-          fees << middleware.on_cancel(*args)
-        end.compact
-        FeeService.new(a)
+        middlewares
+          .each_with_object([]) do |middleware, fees|
+            fees << middleware.public_send(method, *args)
+          end
+          .compact
+          .yield_self { |fees| FeeService.new(fees) }
       rescue StandardError => e
         raise Error, e.message
       end
@@ -97,42 +74,6 @@ module Peatio
           fee.source_account&.unlock_and_sub_funds!(fee.amount)
           fee.target_account&.plus_funds!(fee.amount)
         end
-      end
-    end
-
-    def cancel!
-      ActiveRecord::Base.transaction do
-        fees.each do |fee|
-          fee.source_account&.unlock_funds!(fee.amount)
-        end
-      end
-    end
-
-    class Withdraw
-      def on_submit(withdraw)
-        method_not_implemented
-      end
-
-      def on_complete(withdraw)
-        method_not_implemented
-      end
-
-      def on_cancel(order)
-        method_not_implemented
-      end
-    end
-
-    class Order
-      def on_submit(withdraw)
-        method_not_implemented
-      end
-
-      def on_complete(withdraw)
-        method_not_implemented
-      end
-
-      def on_cancel(order)
-        method_not_implemented
       end
     end
   end

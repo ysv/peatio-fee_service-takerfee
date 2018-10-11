@@ -3,11 +3,10 @@ lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 # binding.pry
 require "peatio-fee_service/takerfee/version"
-# binding.pry
 
 Gem::Specification.new do |spec|
   spec.name          = "peatio-fee_service-takerfee"
-  spec.version       = Peatio::FeeService::Takerfee::VERSION
+  spec.version       = Peatio::Takerfee::VERSION
   spec.authors       = ["MoD"]
   spec.email         = ["mod@websys.io"]
 
