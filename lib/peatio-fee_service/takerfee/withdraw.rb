@@ -3,6 +3,8 @@ module Peatio
     class Withdraw < Peatio::FeeService::Withdraw
 
       def on_submit(withdraw)
+        # On submit we pay fees to platform account.
+        # Transaction USER_ACCOUNT -> PLATFORM_ACCOUNT.
         Fee.new\
           parent: withdraw,
           source_account: withdraw.account,
@@ -15,6 +17,8 @@ module Peatio
       end
 
       def on_cancel(withdraw)
+        # On cancel we return fees to user account.
+        # Transaction PLATFORM_ACCOUNT -> USER_ACCOUNT.
         Fee.new\
           parent: withdraw,
           source_account: Fee::PLATFORM_ACCOUNT_ID,

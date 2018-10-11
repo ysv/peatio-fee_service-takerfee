@@ -9,48 +9,42 @@ module Peatio
     ACTIONS    = %i[on_submit on_complete on_cancel].freeze
 
     class << self
-      ACTIONS.each do |method|
+      ACTIONS.each do |action|
         class_eval <<-RUBY, __FILE__, __LINE__ + 1
-          def #{method}(operation_type, *args)
-            run_middlewares(:#{method}, operation_type, *args)
+          def #{action}(operation_type, *args)
+            run_middlewares(:#{action}, operation_type, *args)
           end
         RUBY
       end
 
-      def run_middlewares(method, operation_type, *args)
-        operation = operation(operation_type)
+      OPERATIONS.each do |operation|
+        class_eval <<-RUBY, __FILE__, __LINE__ + 1
+          def #{operation}_middlewares
+            variable_name = "@#{operation}_middlewares"
+            instance_variable_get(variable_name) ||\
+            instance_variable_set(variable_name, [])
+          end
 
-        middlewares = method("#{operation}_middlewares").call
+          def #{operation}_middlewares=(list)
+            instance_variable_set("@#{operation}_middlewares", list)
+          end
+        RUBY
+      end
+
+      def run_middlewares(action, operation_type, *args)
+        raise Error, 'Unsupported operation for FeeService.' unless operation_type.to_sym.in? OPERATIONS
+
+        middlewares = method("#{operation_type}_middlewares").call
         middlewares
           .each_with_object([]) do |middleware, fees|
-            fees << middleware.public_send(method, *args)
+            fees.concat middleware
+                          .public_send(action, *args)
+                          .yield_self { |fee| Array(fee) }
           end
           .compact
           .yield_self { |fees| FeeService.new(fees) }
       rescue StandardError => e
         raise Error, e.message
-      end
-
-      def operation(operation)
-        operation.tap do |op|
-          raise Error, 'Unsupported operation for FeeService.' unless op.to_s.in? %w[order withdraw]
-        end
-      end
-
-      def order_middlewares=(list)
-        @order_middlewares = list
-      end
-
-      def order_middlewares
-        @order_middlewares ||= []
-      end
-
-      def withdraw_middlewares=(list)
-        @withdraw_middlewares = list
-      end
-
-      def withdraw_middlewares
-        @withdraw_middlewares ||= []
       end
     end
 

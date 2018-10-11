@@ -3,10 +3,10 @@ module Peatio
     class Order < Peatio::FeeService::Order
       def on_submit(order)
         Fee.new\
-          parent: order,
+          parent:         order,
           source_account: order.hold_account,
           target_account: Fee::PLATFORM_ACCOUNT_ID,
-          amount: order.origin_volume * 0.001
+          amount:         order.origin_volume * 0.001
       end
 
       def on_complete(order, trade)
@@ -19,7 +19,7 @@ module Peatio
             parent: order,
             source_account: Fee::PLATFORM_ACCOUNT_ID,
             target_account: order.hold_account,
-            amount: trade.volume * 0.001
+            amount:         trade.volume * 0.001
         end
       end
 

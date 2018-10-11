@@ -1,5 +1,5 @@
 module Peatio
-  # Error repesent all errors that can be returned from FeesService module.
+  # Error repesent all errors that can be returned from FeesService class.
   class FeeService::Error < Peatio::Error
     def initialize(ex = nil)
       # TODO: Change code.
