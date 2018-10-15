@@ -6,29 +6,34 @@ module Peatio
           parent:         order,
           source_account: order.hold_account,
           target_account: Fee::PLATFORM_ACCOUNT_ID,
-          amount:         order.origin_volume * 0.001
+          amount:         order.locked * 0.001
       end
 
-      def on_complete(order, trade)
-        # Select market_maker older order.
-        market_maker = [trade.ask, trade.bid].min_by(&:created_at)
-        # Return fees to market_maker.
-        # NOTE: We return only matched amount of fees
-        if order.created_at == market_maker
-          Fee.new\
-            parent: order,
-            source_account: Fee::PLATFORM_ACCOUNT_ID,
-            target_account: order.hold_account,
-            amount:         trade.volume * 0.001
-        end
+      def on_complete(order, trade=nil)
+        # Don't return fees for market orders.
+        return if order.ord_type.to_s == 'market'
+
+        # Market maker order is older one in pair.
+        market_maker = [trade.ask, trade.bid].min_by(&:id)
+
+        # Don't return fees if orders isn't market_maker.
+        return nil if order != market_maker
+
+        # Return fees paid for this trade.
+        executed_amount = order === OrderBid ? trade.funds : trade.volume
+        Fee.new\
+          parent: order,
+          source_account: Fee::PLATFORM_ACCOUNT_ID,
+          target_account: order.hold_account,
+          amount:         executed_amount * 0.001
       end
 
       def on_cancel(order)
         Fee.new\
-          parent: order,
+          parent:         order,
           source_account: Fee::PLATFORM_ACCOUNT_ID,
-          taret_account:  order.hold_account,
-          amount:         order.volume * 0.001
+          target_account: order.hold_account,
+          amount:         order.locked * 0.001
       end
     end
   end
