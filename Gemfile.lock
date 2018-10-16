@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    peatio-fee_service-takerfee (0.1.0)
+    peatio-takerfee (0.1.0)
       method-not-implemented (~> 1.0.1)
       peatio (~> 0.4.2)
 
@@ -52,7 +52,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 1.16)
-  peatio-fee_service-takerfee!
+  peatio-takerfee!
   rake (~> 10.0)
   rspec (~> 3.0)
 
