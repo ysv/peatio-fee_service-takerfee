@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "peatio-fee_service/peatio-fee_service-takerfee"
+require "peatio/peatio-takerfee"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

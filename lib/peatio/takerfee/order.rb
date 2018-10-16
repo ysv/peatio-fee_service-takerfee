@@ -9,7 +9,7 @@ module Peatio
           amount:         order.locked * 0.001
       end
 
-      def on_complete(order, trade=nil)
+      def on_complete(order, trade)
         # Don't return fees for market orders.
         return if order.ord_type.to_s == 'market'
 

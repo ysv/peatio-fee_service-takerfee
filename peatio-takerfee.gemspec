@@ -1,18 +1,17 @@
-require 'pry-byebug'
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-# binding.pry
-require "peatio-fee_service/takerfee/version"
+require "peatio/takerfee/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "peatio-fee_service-takerfee"
+  spec.name          = "peatio-takerfee"
   spec.version       = Peatio::Takerfee::VERSION
-  spec.authors       = ["MoD"]
-  spec.email         = ["mod@websys.io"]
+  spec.authors       = ["MoD", "Yaroslav Savchuk"]
+  spec.email         = ["mod@websys.io", "ysavchuk@heliostech.fr"]
 
-  spec.summary       = %q{ Write a short summary, because RubyGems requires one.}
-  spec.description   = %q{ Write a longer description or delete this line.}
-  spec.homepage      = "https://www.google.com"
+  spec.summary       = %q{ Peatio plugin for custom fee calculation process.}
+  spec.description   = %q{ A plugin which calculates fee based on order creation sequence.
+                           So fees are charged only from market taker.}
+  spec.homepage      = "https://www.peatio.tech"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -34,7 +33,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency "peatio", "~> 0.4.2"
-  spec.add_dependency "method-not-implemented", "~> 1.0.1"
+  spec.add_runtime_dependency "method-not-implemented", "~> 1.0.1"
 
   spec.add_development_dependency "bundler", "~> 1.16"
   spec.add_development_dependency "rake", "~> 10.0"
